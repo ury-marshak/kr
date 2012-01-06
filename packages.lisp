@@ -6,3 +6,6 @@
 (defpackage #:kr
   (:use :cl))
 
+
+(defpackage #:kr-debug
+  (:use :cl))
