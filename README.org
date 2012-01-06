@@ -1,0 +1,34 @@
+* KR: Constraint-Based Knowledge Representation
+Prototype object system for Common Lisp
+
+** What is KR
+
+KR is an object system implemented in Common Lisp [Steele 84]. It includes three closely integrated
+components: object-oriented programming, constraint maintenance, and knowledge representation.
+
+** What's in this repo
+
+This is KR as it appeares in Garnet 3.0, made standalone and loadable with ASDF
+
+** More on KR
+ - The first component of KR is an object oriented programming system based on the prototype-instance
+   paradigm. Schemata can be used as objects, and inheritance can be used to determine their properties and
+   behavior. Objects can be sent messages, which are implemented as procedural attachments to certain
+   slots; messages are inherited through the same mechanism as values.
+   Instead of the class-instance paradigm, common in object-oriented programming languages, KR
+   implements the more flexible prototype-instance paradigm [Lieberman 86], which allows properties of
+   instances to be determined dynamically by their prototypes. This means that the class structure of a
+   system can be modified dynamically as needed, without any need for recompilation.
+ - The second component of KR implements constraint maintenance. Constraint maintenance is
+   implemented through formulas, which may be attached to slots and determine their values based on the
+   values of other slots in the system.
+   Constraint maintenance is closely integrated with the other components. The user, for example, does not
+   need to know which slots in a schema contain ordinary values and which ones are constrained by a
+   formula, since the same access primitives may be used in both cases.
+ - The third component, frame-based knowledge representation, stores knowledge as a network of chunks of
+   information. Networks in KR are built out of unstructured chunks, i.e., schemata. Each schema can store
+   arbitrary pieces of information, and is not restricted to a particular format or data structure. Information is
+   encoded via attribute-value pairs.
+   Values in a schema can be interpreted as links to other schemata. This enables the system to support
+   complex network structures, which can be freely extended and modified by application programs. KR
+   provides simple ways to specify the structure of a network and the relationship among its components.
