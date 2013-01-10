@@ -8,7 +8,7 @@ components: object-oriented programming, constraint maintenance, and knowledge r
 
 ** What's in this repo
 
-This is KR as it appeares in Garnet 3.0, made standalone and loadable with ASDF
+This is KR as it appears in Garnet 3.0, made standalone and loadable with ASDF.
 
 ** More on KR
  - The first component of KR is an object oriented programming system based on the prototype-instance
