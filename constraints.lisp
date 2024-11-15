@@ -97,7 +97,7 @@
   latter case, the other formula is made the parent, and this function
   creates an inherited formula.  The <initial-value>, which defaults to nil,
   is used as the initial cached value before the formula is evaluated."
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
     (let ((formula (make-new-formula)))
     (setf (schema-name formula) (incf *schema-counter*))
     (setf (cached-value formula) initial-value)
@@ -120,9 +120,9 @@
 	(setf (a-formula-function formula)
 	      ;; This version does not work with CL version 2.  It is,
 	      ;; however, much more efficient than calling the compiler.
-	      #-(or CMU APPLE ANSI-CL) `(lambda () ,form)
+	      #-(or CMU CCL ANSI-CL) `(lambda () ,form)
 	      ;; This version works with CL version 2.
-	      #+(or CMU APPLE ANSI-CL) (compile nil `(lambda () ,form)))
+	      #+(or CMU CCL ANSI-CL) (compile nil `(lambda () ,form)))
 	(setf (a-formula-lambda formula) form)))
     formula)))
 
@@ -141,7 +141,7 @@
 
 
 (defun prepare-formula (initial-value)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
   (let ((formula (make-new-formula)))
     (setf (schema-name formula) (incf *schema-counter*))
     (setf (cached-value formula) initial-value)
@@ -374,7 +374,7 @@
 ;;; dependencies at the end.
 ;;;
 (defun gv-value-fn (schema slot)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
   #+GARNET-DEBUG
   (unless (or *current-formula* (schema-p schema))
     (cerror "Return NIL" "  GV attempted on the non-object ~S (slot ~S)."
@@ -755,7 +755,7 @@ Found in the expression   (gv ~S~{ ~S~}) ,~:[
 ;;; dotted pairs, where each pair consists of a schema and a slot.
 ;;;
 (defun i-depend-on (object slot)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
   (if (schema-p object)
     (let ((formula (get-value object slot))
 	  (dependencies nil))

@@ -51,10 +51,10 @@
       (if common-lisp-user::*default-garnet-proclaim*
         (proclaim common-lisp-user::*default-garnet-proclaim*))
       (proclaim '(optimize (safety 1) (space 0)
-		  (speed #-LUCID 3 #+LUCID 2) #+(or ALLEGRO APPLE) (debug 3))
+		  (speed #-LUCID 3 #+LUCID 2) #+(or ALLEGRO CCL) (debug 3))
 		#+COMMENT
 		'(optimize (safety 0) (space 0)
-		  (speed #-LUCID 3 #+LUCID 2) #+(or ALLEGRO APPLE) (debug 0)))))
+		  (speed #-LUCID 3 #+LUCID 2) #+(or ALLEGRO CCL) (debug 0)))))
 
 
 
@@ -688,7 +688,7 @@
 	   `(function (lambda (value)
 	      (declare (optimize (safety 0) (space 0)
 				 (speed #-LUCID 3 #+LUCID 2)
-                                 #+(or APPLE ALLEGRO) (debug 0)))
+                                 #+(or CCL ALLEGRO) (debug 0)))
 	      ,(make-lambda-body type)))))
 	((setq code (gethash (symbol-name type) types-table))
 	 ;; is this a def-kr-type?
@@ -2668,7 +2668,7 @@
 ;;;
 (defun do-schema-body (schema is-a generate-instance do-constants override
 			      types &rest slot-specifiers)
-  (when #+apple (typep is-a 'ccl::immediate) #-apple (equal is-a '(nil))
+  (when #+ccl (typep is-a 'ccl::immediate) #-ccl (equal is-a '(nil))
     (format
      t
      "*** (create-instance ~S) called with an illegal (unbound?) class name.~%"
