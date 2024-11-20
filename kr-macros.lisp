@@ -54,17 +54,17 @@
 
 (eval-when (eval compile load)
   (defvar *special-kr-optimization*
-    '(optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+    '(optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
 
   (proclaim '(special common-lisp-user::*default-garnet-proclaim*))
   (if (boundp 'common-lisp-user::*default-garnet-proclaim*)
     (if common-lisp-user::*default-garnet-proclaim*
       (proclaim common-lisp-user::*default-garnet-proclaim*))
     (proclaim '(optimize (safety 1) (space 0)
-		(speed #-LUCID 3 #+LUCID 2) #+(or APPLE ALLEGRO) (debug 3))
+		(speed #-LUCID 3 #+LUCID 2) #+(or CCL ALLEGRO) (debug 3))
 	      #+COMMENT
 	      '(optimize (safety 0) (space 0)
-		(speed #-LUCID 3 #+LUCID 2) #+(or APPLE ALLEGRO) (debug 0)))))
+		(speed #-LUCID 3 #+LUCID 2) #+(or CCL ALLEGRO) (debug 0)))))
 
 
 ;;; This enables the eager-evaluation version.
@@ -1097,7 +1097,7 @@ You can also provide a documentation string as the last parameter, as in:
 ;;;; GET-LOCAL-VALUE
 ;;; 
 (defun get-local-value (schema slot)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
     (let ((entry (slot-accessor schema slot)))
     (if (if entry (not (is-inherited (sl-bits entry))))
       (sl-value entry)))))
@@ -1371,7 +1371,7 @@ You can also provide a documentation string as the last parameter, as in:
 ;;; Helper function for multi-level S-VALUE
 ;;;
 (defun s-value-chain (schema &rest slots)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
   (if (null schema)
     (error "S-VALUE on a null object:  (S-VALUE ~S~{ ~S~})" schema slots)
     (unless (schema-p schema)
@@ -1490,7 +1490,7 @@ at slot ~S  (non-schema value is ~S, last schema was ~S)"
 ;;;; HAS-SLOT-P
 ;;; 
 (defun has-slot-p (schema slot)
-  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO APPLE) (debug 0)))
+  (locally (declare (optimize (speed 3) (space 0) #+(or ALLEGRO CCL) (debug 0)))
     (let ((entry (slot-accessor schema slot)))
     (if entry
       (if (not (eq (sl-value entry) *no-value*))
